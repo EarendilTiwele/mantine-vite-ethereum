@@ -33,7 +33,7 @@ export default function DocumentsForm({
   useEffect(reset, [isSettled]);
 
   return (
-    <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(console.log)}>
+    <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(onSubmit)}>
       {documentsList.map((d, i) => (
         <div className="flex w-full" key={d}>
           <input
