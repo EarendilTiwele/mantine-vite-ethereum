@@ -27,7 +27,7 @@ function App() {
     <div className="flex flex-col p-20">
       <div className="mb-10 w-full text-center text-4xl font-extrabold">Thesis demo</div>
       <div className="flex flex-row justify-between">
-        <div className="mr-10">
+        <div className="mr-52 w-[300px]">
           <DocumentsForm
             onSubmit={async ({ documents }) => {
               transactionMutation.mutateAsync(documents);

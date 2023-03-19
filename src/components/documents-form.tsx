@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TForm } from "../api/types";
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { DOCUMENTS_LIST as documentsList } from "../config";
 
-const documentsSchema = documentsList.reduce((documents, document) => ({...documents, [document]:z.boolean()}), {})
+const documentsSchema = documentsList.reduce((documents, document) => ({ ...documents, [document]: z.boolean() }), {});
 
 const schema = z.object({
-  documents: z.object({...documentsSchema}).refine(documents => Object.values(documents).find(document => document), { message: 'At least of the documents should be selected' })
-})
+  documents: z
+    .object({ ...documentsSchema })
+    .refine((documents) => Object.values(documents).find((document) => document), {
+      message: "At least one of the documents should be selected",
+    }),
+});
 
 export default function DocumentsForm({
   onSubmit,
@@ -24,7 +28,7 @@ export default function DocumentsForm({
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitted, },
+    formState: { errors, isSubmitted },
   } = useForm<{ documents: TForm }>({
     mode: "onSubmit",
     resolver: zodResolver(schema),
@@ -36,13 +40,7 @@ export default function DocumentsForm({
     <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(onSubmit)}>
       {documentsList.map((d, i) => (
         <div className="flex w-full" key={d}>
-          <input
-            readOnly={isLoading}
-            type="checkbox"
-            id={d}
-            className="peer hidden"
-            {...register(`documents.${d}`)}
-          />
+          <input readOnly={isLoading} type="checkbox" id={d} className="peer hidden" {...register(`documents.${d}`)} />
           <label
             htmlFor={d}
             className="w-full cursor-pointer select-none rounded-lg border-2 border-gray-200 py-3
@@ -52,7 +50,11 @@ export default function DocumentsForm({
           </label>
         </div>
       ))}
-      {Object.values(errors).map((e, i) => <div key={i}>{e.message}</div>)}
+      {Object.values(errors).map((e, i) => (
+        <div key={i} className="text-center">
+          {e.message}
+        </div>
+      ))}
       <button
         disabled={isLoading}
         className="rounded-lg bg-purple-500 px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-purple-600 disabled:bg-purple-700"
