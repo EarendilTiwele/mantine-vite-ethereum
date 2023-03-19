@@ -20,7 +20,7 @@ export default function DocumentsForm({
     clearErrors,
     watch,
     formState: { errors },
-  } = useForm<{ documents: boolean[] }>({
+  } = useForm<TForm>({
     mode: "onSubmit",
   });
 
@@ -28,7 +28,7 @@ export default function DocumentsForm({
 
   // TODO: Add validation
   return (
-    <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(console.log)}>
+    <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(onSubmit)}>
       {documentsList.map((d, i) => (
         <div className="flex w-full" key={d}>
           <input
@@ -37,7 +37,7 @@ export default function DocumentsForm({
             id={d}
             value={d}
             className="peer hidden"
-            {...register(`document.${i}`)}
+            {...register(d)}
           />
           <label
             htmlFor={d}
