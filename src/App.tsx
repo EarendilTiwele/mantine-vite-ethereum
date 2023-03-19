@@ -30,7 +30,13 @@ function App() {
     <div className="flex flex-col bg-amber-500 p-20">
       <div className="flex flex-row justify-between bg-red-500">
         <div className="mr-1 bg-blue-500">
-          <DocumentsForm onSubmit={transactionMutation.mutate} />
+          <DocumentsForm
+            onSubmit={async (d) => {
+              transactionMutation.mutateAsync(d);
+            }}
+            isLoading={transactionMutation.isLoading}
+            isSettled={transactionMutation.isSuccess || transactionMutation.isError}
+          />
         </div>
         <div className="bg-purple-500">
           <Transactions transactionList={transactionList} />
