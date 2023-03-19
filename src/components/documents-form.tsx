@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TForm } from "../api/types";
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { DOCUMENTS_LIST as documentsList } from "../config";
+
+const documentsSchema = documentsList.reduce((documents, document) => ({...documents, [document]:z.boolean()}), {})
+
+const schema = z.object({
+  documents: z.object({...documentsSchema}).refine(documents => Object.values(documents).find(document => document), { message: 'At least of the documents should be selected' })
+})
 
 export default function DocumentsForm({
   onSubmit,
   isLoading,
   isSettled,
 }: {
-  onSubmit: (data: TForm) => Promise<void>;
+  onSubmit: (data: { documents: TForm }) => Promise<void>;
   isLoading: boolean;
   isSettled: boolean;
 }) {
@@ -16,17 +24,14 @@ export default function DocumentsForm({
     register,
     handleSubmit,
     reset,
-    getValues,
-    clearErrors,
-    watch,
-    formState: { errors },
-  } = useForm<{ documents: boolean[] }>({
+    formState: { errors, isSubmitted, },
+  } = useForm<{ documents: TForm }>({
     mode: "onSubmit",
+    resolver: zodResolver(schema),
   });
 
   useEffect(reset, [isSettled]);
 
-  // TODO: Add validation
   return (
     <form className="flex flex-col gap-2 p-1" onSubmit={handleSubmit(console.log)}>
       {documentsList.map((d, i) => (
@@ -35,9 +40,8 @@ export default function DocumentsForm({
             readOnly={isLoading}
             type="checkbox"
             id={d}
-            value={d}
             className="peer hidden"
-            {...register(`document.${i}`)}
+            {...register(`documents.${d}`)}
           />
           <label
             htmlFor={d}
@@ -48,9 +52,9 @@ export default function DocumentsForm({
           </label>
         </div>
       ))}
-      {Object.values(errors).map((e) => e.message)}
+      {Object.values(errors).map((e, i) => <div key={i}>{e.message}</div>)}
       <button
-        disabled={isLoading || !!Object.values(errors).length}
+        disabled={isLoading}
         className="rounded-lg bg-purple-500 px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-purple-600 disabled:bg-purple-700"
       >
         Send to smart contract

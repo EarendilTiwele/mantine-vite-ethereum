@@ -27,12 +27,12 @@ function App() {
   );
 
   return (
-    <div className="flex flex-col bg-amber-500 p-20">
+    <div className="flex flex-col bg-amber-500 w-full h-full justify-center items-center">
       <div className="flex flex-row justify-between bg-red-500">
-        <div className="mr-1 bg-blue-500">
+        <div className="bg-blue-500 w-[300px]">
           <DocumentsForm
-            onSubmit={async (d) => {
-              transactionMutation.mutateAsync(d);
+            onSubmit={async ({ documents }) => {
+              transactionMutation.mutateAsync(documents);
             }}
             isLoading={transactionMutation.isLoading}
             isSettled={transactionMutation.isSuccess || transactionMutation.isError}
@@ -42,7 +42,7 @@ function App() {
           <Transactions transactionList={transactionList} />
         </div>
       </div>
-      <div className="w-full bg-green-500">
+      <div className="bg-green-500">
         <Outcome
           outcome={areProvidersMissing ? "Missing web3 provider on the browser" : outcome ?? ""}
         />
