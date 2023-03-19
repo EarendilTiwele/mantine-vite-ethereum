@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { TCreateTransactionParameters, TForm, TTransaction } from "./types";
+import { TForm, TTransaction } from "./types";
 import contract from "../contractABI.json";
 import { CONTRACT_ADDRESS } from "../config";
 

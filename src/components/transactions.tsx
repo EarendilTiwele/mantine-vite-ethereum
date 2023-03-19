@@ -1,5 +1,4 @@
 import { TTransaction } from "../api/types";
-import { mockTransactions } from "../mock";
 import Spinner from "./spinner";
 
 export default function Transactions({ transaction, isLoading }: { transaction?: TTransaction; isLoading: boolean }) {

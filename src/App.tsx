@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { CONTRACT_ADDRESS } from "./config";
 import { createTransaction } from "./api/api";
 import { TTransaction } from "./api/types";
 import { useMutation } from "@tanstack/react-query";
@@ -19,7 +18,7 @@ function App() {
   });
 
   const areProvidersMissing = useMemo(
-    () => transactionMutation.isError && transactionMutation.error !== "execution reverted: Invalid input",
+    () => transactionMutation.isError,
     [transactionMutation.error]
   );
 
@@ -31,6 +30,8 @@ function App() {
           <DocumentsForm
             onSubmit={async ({ documents }) => {
               transactionMutation.mutateAsync(documents);
+              setOutcome(undefined);
+              setTransaction(undefined);
             }}
             isLoading={transactionMutation.isLoading}
             isSettled={transactionMutation.isSuccess || transactionMutation.isError}
@@ -41,7 +42,7 @@ function App() {
         </div>
       </div>
       <div className="w-full">
-        <Outcome outcome={areProvidersMissing ? "Missing web3 provider on the browser" : outcome ?? ""} />
+        <Outcome outcome={areProvidersMissing ? "Error" : (!outcome ? "" : `Outcome: ${outcome}`)} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { ContractFunction, ContractInterface, ethers } from "ethers";
+import { ContractFunction } from "ethers";
 import { DOCUMENTS_LIST } from "../config";
 
 export type TTransaction = {
