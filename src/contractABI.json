@@ -1,0 +1,9 @@
+[
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "name": "assign_outcome",
+    "inputs": [{ "name": "documents", "type": "bool[3]" }],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  }
+]
