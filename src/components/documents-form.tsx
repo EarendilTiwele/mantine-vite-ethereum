@@ -43,21 +43,21 @@ export default function DocumentsForm({
           <input readOnly={isLoading} type="checkbox" id={d} className="peer hidden" {...register(`documents.${d}`)} />
           <label
             htmlFor={d}
-            className="w-full cursor-pointer select-none rounded-lg border-2 border-gray-200 py-3
-            px-6 text-center font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:border-gray-200 peer-checked:bg-gray-200 peer-checked:text-gray-900 "
+            className="w-full cursor-pointer select-none rounded-lg border-2 border-[#c4aedc] py-3
+            px-6 text-center font-bold text-[#e2e2f3] transition-colors duration-200 ease-in-out peer-checked:border-[#e4cbff] peer-checked:bg-[#e4cbff] peer-checked:text-[#726580] "
           >
             {d}
           </label>
         </div>
       ))}
       {Object.values(errors).map((e, i) => (
-        <div key={i} className="text-center">
+        <div key={i} className="text-center text-[#726580]">
           {e.message}
         </div>
       ))}
       <button
         disabled={isLoading}
-        className="rounded-lg bg-purple-500 px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-purple-600 disabled:bg-purple-700"
+        className="rounded-lg bg-[#a155ff] px-5 py-3 text-base font-medium text-white transition duration-200 hover:bg-purple-600 disabled:bg-purple-700"
       >
         Send to smart contract
       </button>

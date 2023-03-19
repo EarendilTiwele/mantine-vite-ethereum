@@ -23,26 +23,28 @@ function App() {
   );
 
   return (
-    <div className="flex flex-col p-20">
-      <div className="mb-10 w-full text-center text-4xl font-extrabold">Thesis demo</div>
-      <div className="flex flex-row justify-between">
-        <div className="mr-52 w-[300px]">
-          <DocumentsForm
-            onSubmit={async ({ documents }) => {
-              transactionMutation.mutateAsync(documents);
-              setOutcome(undefined);
-              setTransaction(undefined);
-            }}
-            isLoading={transactionMutation.isLoading}
-            isSettled={transactionMutation.isSuccess || transactionMutation.isError}
-          />
+    <div className="flex flex-col">
+      <div className="text-6xl bg-[#431180] p-5 pl-10 font-bold text-[#ffffff]">Thesis demo</div>
+      <div className="p-10">
+        <div className="flex flex-row justify-between">
+          <div className="mr-52 w-[300px] p-[20px] shadow-lg rounded-lg bg-[#fffcff]">
+            <DocumentsForm
+              onSubmit={async ({ documents }) => {
+                transactionMutation.mutateAsync(documents);
+                setOutcome(undefined);
+                setTransaction(undefined);
+              }}
+              isLoading={transactionMutation.isLoading}
+              isSettled={transactionMutation.isSuccess || transactionMutation.isError}
+            />
+          </div>
+          <div className="flex-1 p-[20px] shadow-lg rounded-lg bg-[#fffcff]">
+            <Transactions isLoading={transactionMutation.isLoading} transaction={transaction} />
+          </div>
         </div>
-        <div className="flex-1">
-          <Transactions isLoading={transactionMutation.isLoading} transaction={transaction} />
+        <div className="flex mt-[50px] text-7xl font-extrabold text-transparent">
+          <Outcome outcome={areProvidersMissing ? "Error" : (!outcome ? "" : `Outcome: ${outcome}`)} />
         </div>
-      </div>
-      <div className="w-full">
-        <Outcome outcome={areProvidersMissing ? "Error" : (!outcome ? "" : `Outcome: ${outcome}`)} />
       </div>
     </div>
   );

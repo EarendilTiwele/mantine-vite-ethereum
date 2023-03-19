@@ -4,42 +4,28 @@ import Spinner from "./spinner";
 export default function Transactions({ transaction, isLoading }: { transaction?: TTransaction; isLoading: boolean }) {
   if (isLoading)
     return (
-      <div className="flex h-full flex-col text-center">
-        <div className="text-2xl font-extrabold"> Transaction data </div>
+      <div className="flex h-full flex-col">
+        <div className="text-3xl mb-[20px] font-bold text-[#767680]"> Transaction data </div>
         <div className="flex h-full w-full items-center justify-center">
           <Spinner />
         </div>
       </div>
     );
   return (
-    <div className="flex flex-1 flex-col text-center">
-      <div className="text-2xl font-extrabold"> Transaction data </div>
+    <div className="flex flex-1 flex-col text-[#767680]">
+      <div className="text-3xl mb-[20px] font-bold"> Transaction data </div>
       {!transaction ? (
         <p>No transaction available</p>
       ) : (
-        <dl className="text-left" key={transaction.transactionHash}>
-          <dt>
-            <b>Transaction Hash</b>: {transaction.transactionHash}
-          </dt>
-          <dt>
-            <b>Block</b>: {transaction.block}
-          </dt>
-          <dt>
-            <b>Timestamp</b>: {transaction.timestamp}
-          </dt>
-          <dt>
-            <b>From</b>: {transaction.from}
-          </dt>
-          <dt>
-            <b>To</b>: {transaction.to}
-          </dt>
-          <dt>
-            <b>Transaction Fee</b>: {transaction.transactionFee}
-          </dt>
-          <dt>
-            <b>Gas Price</b>: {transaction.gasPrice}
-          </dt>
-        </dl>
+        <div className="flex flex-col">
+          <div className="flex"><b className="w-[135px] mr-[5px]">Transaction Hash:</b>{transaction.transactionHash}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">Block:</b>{transaction.block}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">Timestamp:</b>{transaction.timestamp}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">From:</b>{transaction.from}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">To:</b>{transaction.to}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">Transaction Fee:</b>{transaction.transactionFee}</div>
+          <div className="flex"><b className="w-[135px] mr-[5px]">Gas Price:</b>{transaction.gasPrice}</div>
+        </div>
       )}
     </div>
   );
