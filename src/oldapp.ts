@@ -1,12 +1,10 @@
 import logo from "./logo.svg";
-import { ethers } from "ethers";
-import contractABI from "./contractABI.json";
 import { useState } from "react";
 import "./App.css";
-import { CONTRACT_ADDRESS } from "../config";
+import { CONTRACT_ADDRESS } from "./config";
 import { createTransaction } from "./api/api";
 import { TTransaction } from "./api/types";
-
+import { useMutation } from "@tanstack/react-query";
 function App() {
   const [documentA, setDocumentA] = useState(false);
   const [documentB, setDocumentB] = useState(false);
@@ -16,23 +14,29 @@ function App() {
   const [transactionData, setTransactionData] = useState<TTransaction>();
   const [outcome, setOutcome] = useState<string>();
 
+  const transactionMutation = useMutation(createTransaction, {
+    onSuccess: (data) => {
+      setTransactionData(data.transaction);
+      setOutcome(data.outcome);
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const data = await createTransaction();
-
-      setTransactionData(data);
-
-      setOutcome(outcome);
-    } catch (err) {
-      if (err.reason !== "execution reverted: Invalid input") {
-        console.error(err);
-        setMissingProvider(true);
-      } else {
-        setOutcome("Select at least one document");
-        console.error(err);
-      }
-    }
+    transactionMutation.mutate();
+    // try {
+    //   const data = await createTransaction();
+    //   setTransactionData(data.transaction);
+    //   setOutcome(outcome.transaction);
+    // } catch (err) {
+    //   if (err.reason !== "execution reverted: Invalid input") {
+    //     console.error(err);
+    //     setMissingProvider(true);
+    //   } else {
+    //     setOutcome("Select at least one document");
+    //     console.error(err);
+    //   }
+    // }
   };
 
   return (
@@ -40,7 +44,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
 
-        <form onSubmit={(event) => handleSubmit(event)}>
+        <form onSubmit={handleSubmit}>
           <input type="checkbox" name="documentA" value={documentA} id="documentA" onChange={(e) => setDocumentA(!documentA)} />
           <label htmlFor="documentA">Document A</label>
           <br />
