@@ -8,7 +8,7 @@ export default function Transactions({ transactionList }: { transactionList?: TT
         <p> Non ci sono transazioni al momento</p>
       ) : (
         transactionList.map((t) => (
-          <dl>
+          <dl key={t.transactionHash}>
             <dt>Transaction Hash: {t.transactionHash}</dt>
             <dt>Block: {t.block}</dt>
             <dt>Timestamp: {t.timestamp}</dt>

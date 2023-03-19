@@ -1,4 +1,5 @@
 import { ContractFunction, ContractInterface, ethers } from "ethers";
+import { DOCUMENTS_LIST } from "../config";
 
 export type TTransaction = {
   transactionHash: string;
@@ -11,9 +12,7 @@ export type TTransaction = {
 };
 
 export type TCreateTransactionParameters = {
-  contract: {
-    address: string;
-    contractInterface: ContractInterface;
-  };
   documents: ContractFunction[];
 };
+
+export type TForm = Record<(typeof DOCUMENTS_LIST)[number], boolean>;
